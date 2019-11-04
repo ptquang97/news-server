@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\Api;
 use App\Services\UserService;
 use App\User;
+
 class UserController extends Controller
 {
     protected $userService;
@@ -35,9 +36,13 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function checkUser(Request $request) {
-        $result = $this->userService->checkUser($request->all());
-        return Api::r_response($result, 'Check user success', 'S200');
+    public function login(Request $request)
+    {
+        $user = $this->userService->login($request);
+        if (is_string($user)) {
+            return Api::r_response('', $user, 'S200');
+        }
+        return Api::r_response($user, 'Login success', 's422');
     }
 
     /**

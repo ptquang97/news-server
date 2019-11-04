@@ -11,7 +11,7 @@ use App\User;
 class UserService extends BaseService {
 
     /**
-     * RideService constructor.
+     * UserService constructor.
      */
     public function __construct() {
         parent::__construct();
@@ -35,8 +35,8 @@ class UserService extends BaseService {
     }
 
     /**
-     * Get user
-     * @param $userId
+     * Create user
+     * @param array $attribute
      * @return mixed
      */
     public function createUser($attribute = []) {
@@ -44,15 +44,22 @@ class UserService extends BaseService {
     }
 
     /**
-     * Create user
+     * Login
      * @param array $attribute
      * @return mixed
      */
-    public function checkUser($attribute = []) {
-        $user = User::where('id', $attribute['uid'])->get();
-//        if (sizeof($user) == 0) {
-//            $this->create($attribute);
-//        }
+    public function login($attribute = []) {
+        $user = User::where('email', $attribute['email'])->first();
+        if ($user) {
+            if ($user->password === $attribute['password']) {
+                return $user;
+            } else {
+                return 'Invalid Password';
+            }
+        } else {
+            return "Invalid Email";
+        }
+
     }
 
     /** Update profile
@@ -61,7 +68,7 @@ class UserService extends BaseService {
      * @return mixed
      */
     public function updateProfile($attribute = [], $userId) {
-        $user = User::where('uid', $userId)->update($attribute);
+        $user = User::where('id', $userId)->update($attribute);
         return $user;
     }
 

@@ -4,60 +4,42 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Helpers\Api;
+use App\Services\TagsService;
 class TagsController extends Controller
 {
+    protected $tagsService;
+
+    public function __construct(TagsService $tagsService) {
+        $this->tagsService = $tagsService;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getTags()
     {
-        //
+        $result = $this->tagsService->getTags();
+        if ($result) {
+            return Api::r_response($result, "Get Tags success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createTag(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $result = $this->tagsService->createTag($request->all());
+        if ($result) {
+            return Api::r_response($result, "Create success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
     }
 
     /**
@@ -67,10 +49,15 @@ class TagsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateTag(Request $request, $id)
     {
-        //
+        $result = $this->tagsService->updateTag($request->all(), $id);
+        if ($result) {
+            return Api::r_response("", 'Edit Tag success', 'S204');
+        }
+        return Api::r_response("", 'Server error', 'E500');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +65,11 @@ class TagsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteTag($id)
     {
-        //
+        if ($this->tagsService->deleteTag($id)) {
+            return Api::r_response("", "Delete success", "S204");
+        }
+        return Api::r_response("", "Server error", "E500");
     }
 }

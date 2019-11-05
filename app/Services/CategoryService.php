@@ -50,8 +50,8 @@ class CategoryService extends BaseService {
      * @param $categoryId
      * @return mixed
      */
-    public function updateCategory($attribute = [], $categoryId) {
-        $Category = Category::where('id', $categoryId)->update($attribute);
+    public function updateCategory($attribute) {
+        $Category = Category::where('id', $attribute['id'])->update($attribute);
         return $Category;
     }
 

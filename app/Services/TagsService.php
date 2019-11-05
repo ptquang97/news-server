@@ -51,8 +51,8 @@ class TagsService extends BaseService {
      * @param $tagId
      * @return mixed
      */
-    public function updateTag($attribute = [], $tagId) {
-        $Tag = Tags::where('id', $tagId)->update($attribute);
+    public function updateTag($attribute = []) {
+        $Tag = Tags::where('id', $attribute['id'])->update($attribute);
         return $Tag;
     }
 

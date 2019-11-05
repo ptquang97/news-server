@@ -35,7 +35,7 @@ Route::group(['namespace' => 'api', 'prefix' => 'tag'], function () {
     // edi tag
     Route::put('updateTag', 'TagsController@updateTag');
     // delete tag
-    Route::put('deleteTag', 'TagsController@deleteTag');
+    Route::put('deleteTag/{tagId}', 'TagsController@deleteTag');
 });
 
 // Category
@@ -47,10 +47,10 @@ Route::group(['namespace' => 'api', 'prefix' => 'category'], function () {
     // edi tag
     Route::put('updateCategory', 'CategoryController@updateCategory');
     // delete tag
-    Route::put('deleteCategory', 'CategoryController@deleteCategory');
+    Route::put('deleteCategory/{categoryId}', 'CategoryController@deleteCategory');
 });
 
-// Category
+// Comment
 Route::group(['namespace' => 'api', 'prefix' => 'comment'], function () {
     // Get tag
     Route::get('getComment', 'CommentController@getComment');
@@ -59,5 +59,17 @@ Route::group(['namespace' => 'api', 'prefix' => 'comment'], function () {
     // edi tag
     Route::put('updateComment', 'CommentController@updateComment');
     // delete tag
-    Route::put('deleteComment', 'CommentController@deleteComment');
+    Route::put('deleteComment/{commentId}', 'CommentController@deleteComment');
+});
+
+// News
+Route::group(['namespace' => 'api', 'prefix' => 'news'], function () {
+    // Get tag
+    Route::get('getNews', 'CommentController@getNewsInfo');
+    // create tag
+    Route::post('createNews', 'CommentController@createNews');
+    // edi tag
+    Route::put('updateNews', 'CommentController@updateNews');
+    // delete tag
+    Route::put('deleteNews/{newsId}', 'CommentController@deleteNews');
 });

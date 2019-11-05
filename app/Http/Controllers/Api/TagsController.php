@@ -49,9 +49,9 @@ class TagsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateTag(Request $request, $id)
+    public function updateTag(Request $request)
     {
-        $result = $this->tagsService->updateTag($request->all(), $id);
+        $result = $this->tagsService->updateTag($request->all());
         if ($result) {
             return Api::r_response("", 'Edit Tag success', 'S204');
         }

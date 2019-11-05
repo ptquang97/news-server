@@ -49,9 +49,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCategory(Request $request, $id)
+    public function updateCategory(Request $request)
     {
-        $result = $this->categoryService->updateCategory($request->all(), $id);
+        $result = $this->categoryService->updateCategory($request->all());
         if ($result) {
             return Api::r_response("", 'Edit Category success', 'S204');
         }

@@ -51,8 +51,8 @@ class NewsService extends BaseService {
      * @param $newsId
      * @return mixed
      */
-    public function updateNews($attribute = [], $newsId) {
-        $News = News::where('id', $newsId)->update($attribute);
+    public function updateNews($attribute = []) {
+        $News = News::where('id', $attribute['id'])->update($attribute);
         return $News;
     }
 

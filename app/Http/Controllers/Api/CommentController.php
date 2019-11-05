@@ -49,9 +49,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateComment(Request $request, $id)
+    public function updateComment(Request $request)
     {
-        $result = $this->commentService->updateComment($request->all(), $id);
+        $result = $this->commentService->updateComment($request->all());
         if ($result) {
             return Api::r_response("", 'Edit Comment success', 'S204');
         }

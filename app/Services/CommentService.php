@@ -50,8 +50,8 @@ class CommentService extends BaseService {
      * @param $commentId
      * @return mixed
      */
-    public function updateComment($attribute = [], $commentId) {
-        $Comment = Comment::where('id', $commentId)->update($attribute);
+    public function updateComment($attribute = []) {
+        $Comment = Comment::where('id', $attribute['id'])->update($attribute);
         return $Comment;
     }
 

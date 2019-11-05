@@ -51,9 +51,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateNews(Request $request, $id)
+    public function updateNews(Request $request)
     {
-        $result = $this->newsService->updateNews($request->all(), $id);
+        $result = $this->newsService->updateNews($request->all());
         if ($result) {
             return Api::r_response("", 'Edit News success', 'S204');
         }

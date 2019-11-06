@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 // User
-Route::group(['namespace' => 'api', 'prefix' => 'user'], function () {
+Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'user'], function () {
     // Get user
     Route::get('getProfile/{userId}', 'UserController@getProfile');
     // create uer
@@ -27,7 +27,7 @@ Route::group(['namespace' => 'api', 'prefix' => 'user'], function () {
 });
 
 // Tag
-Route::group(['namespace' => 'api', 'prefix' => 'tag'], function () {
+Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'tag'], function () {
     // Get tag
     Route::get('getTags', 'TagsController@getTags');
     // create tag
@@ -39,7 +39,7 @@ Route::group(['namespace' => 'api', 'prefix' => 'tag'], function () {
 });
 
 // Category
-Route::group(['namespace' => 'api', 'prefix' => 'category'], function () {
+Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'category'], function () {
     // Get tag
     Route::get('getCategory', 'CategoryController@getCategory');
     // create tag
@@ -51,7 +51,7 @@ Route::group(['namespace' => 'api', 'prefix' => 'category'], function () {
 });
 
 // Comment
-Route::group(['namespace' => 'api', 'prefix' => 'comment'], function () {
+Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'comment'], function () {
     // Get tag
     Route::get('getComment', 'CommentController@getComment');
     // create tag
@@ -63,7 +63,7 @@ Route::group(['namespace' => 'api', 'prefix' => 'comment'], function () {
 });
 
 // News
-Route::group(['namespace' => 'api', 'prefix' => 'news'], function () {
+Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'news'], function () {
     // Get tag
     Route::get('getNews', 'CommentController@getNewsInfo');
     // create tag

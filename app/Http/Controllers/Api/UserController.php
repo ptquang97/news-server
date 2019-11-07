@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        $user = $this->userService->login($request);
+        $user = $this->userService->login($request->all());
         if (is_string($user)) {
             return Api::r_response('', $user, 's422');
         }

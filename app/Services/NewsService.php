@@ -7,7 +7,6 @@
  */
 namespace App\Services;
 
-use App\Comment;
 use App\News;
 use Illuminate\Support\Facades\DB;
 
@@ -61,8 +60,23 @@ class NewsService extends BaseService {
      * @return boolean
      */
     public function deleteNews($newsId) {
-        Comment::where('news_id', $newsId)->delete();
+        News::where('news_id', $newsId)->delete();
         return self::delete($newsId);
+    }
+
+    public function upload($attribute = []) {
+        return $attribute;
+//        $user = User::where('email', $attribute['email'])->first();
+//        if ($user) {
+//            if ($user->password === $attribute['password']) {
+//                return $user;
+//            } else {
+//                return 'Invalid Password';
+//            }
+//        } else {
+//            return "Invalid Email";
+//        }
+
     }
 
 }

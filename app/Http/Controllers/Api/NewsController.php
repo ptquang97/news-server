@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Api;
 use App\Services\NewsService;
+use phpDocumentor\Reflection\File;
+
 class NewsController extends Controller
 {
     protected $newsService;
@@ -73,5 +75,16 @@ class NewsController extends Controller
             return Api::r_response("", "Delete success", "S204");
         }
         return Api::r_response("", "Server error", "E500");
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $path = [];
+        foreach ($request->allFiles() as $photo) {
+            $filename = $photo->storeAs('photos', $photo->getClientOriginalName());
+            array_push($path,$filename);
+        }
+        return Api::r_response($path, "Upload success", "S204");
+
     }
 }

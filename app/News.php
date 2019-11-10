@@ -14,10 +14,10 @@ class News extends Model
     /**
      * @var string table name
      */
-    protected $table = 'comment';
+    protected $table = 'news';
     /**
      * @var array collumn of table
      */
-    public $fillable = ['id', 'title', 'short_intro', 'content', 'related_articles', 'user_id', 'category_id', 'tags_id', 'image'];
+    public $fillable = ['id', 'title', 'short_intro', 'content', 'user_id', 'category_id', 'tags_id', 'image'];
 
 }

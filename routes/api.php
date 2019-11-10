@@ -65,11 +65,13 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
 // News
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'news'], function () {
     // Get tag
-    Route::get('getNews', 'CommentController@getNewsInfo');
+    Route::get('getNews', 'NewsController@getNewsInfo');
     // create tag
-    Route::post('createNews', 'CommentController@createNews');
+    Route::post('createNews', 'NewsController@createNews');
     // edi tag
-    Route::put('updateNews', 'CommentController@updateNews');
+    Route::put('updateNews', 'NewsController@updateNews');
     // delete tag
-    Route::put('deleteNews/{newsId}', 'CommentController@deleteNews');
+    Route::put('deleteNews/{newsId}', 'NewsController@deleteNews');
+    // add image
+    Route::post('uploadImage', 'NewsController@uploadImage');
 });

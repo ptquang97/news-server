@@ -36,6 +36,11 @@ class CategoryService extends BaseService {
         return $result;
     }
 
+    public function getCategoryInfo($categoryId) {
+        $result = Category::where('id', $categoryId)->get();
+        return $result;
+    }
+
     /**
      * Create Category
      * @param array $attribute

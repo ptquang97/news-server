@@ -72,4 +72,14 @@ class CategoryController extends Controller
         }
         return Api::r_response("", "Server error", "E500");
     }
+
+    public function getCategoryInfo($categoryId)
+    {
+        $result = $this->categoryService->getCategoryInfo($categoryId);
+        if ($result) {
+            return Api::r_response($result, "Get Category success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
 }

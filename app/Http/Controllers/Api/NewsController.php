@@ -22,7 +22,7 @@ class NewsController extends Controller
      * @param $newsId
      * @return \Illuminate\Http\Response
      */
-    public function getInfo($newsId)
+    public function getNewsInfo($newsId)
     {
         $result = $this->newsService->getNewsInfo($newsId);
         if ($result) {

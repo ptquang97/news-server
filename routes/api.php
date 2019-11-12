@@ -64,14 +64,16 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
 
 // News
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'news'], function () {
-    // Get tag
-    Route::get('getNews', 'NewsController@getNewsInfo');
-    // create tag
+    // Get newsInfo
+    Route::get('getNews/{newsId}', 'NewsController@getNewsInfo');
+    // create news
     Route::post('createNews', 'NewsController@createNews');
-    // edi tag
+    // edi news
     Route::put('updateNews', 'NewsController@updateNews');
-    // delete tag
+    // delete news
     Route::put('deleteNews/{newsId}', 'NewsController@deleteNews');
     // add image
     Route::post('uploadImage', 'NewsController@uploadImage');
+    // Get newsByCategory
+    Route::get('getNewsByCategory/{categoryId}', 'NewsController@getNewsByCategory');
 });

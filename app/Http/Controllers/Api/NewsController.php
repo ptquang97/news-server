@@ -87,4 +87,13 @@ class NewsController extends Controller
         return Api::r_response($path, "Upload success", "S204");
 
     }
+    public function getNewsByCategory($categoryId)
+    {
+        $result = $this->newsService->getNewsByCategory($categoryId);
+        if ($result) {
+            return Api::r_response($result, "Get News success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
 }

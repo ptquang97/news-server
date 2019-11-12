@@ -37,6 +37,16 @@ class NewsService extends BaseService {
     }
 
     /**
+     * Get News By Category
+     * @param
+     * @return mixed
+     */
+    public function getNewsByCategory($categoryId) {
+        $result = News::where('category_id', $categoryId)->get();
+        return $result;
+    }
+
+    /**
      * Create News
      * @param array $attribute
      * @return mixed

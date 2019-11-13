@@ -42,7 +42,12 @@ class NewsService extends BaseService {
      * @return mixed
      */
     public function getNewsByCategory($categoryId) {
-        $result = News::where('category_id', $categoryId)->get();
+        $result = News::where('category_id', $categoryId)->orderBy('id', 'DESC')->get();
+        return $result;
+    }
+
+    public function getNews() {
+        $result = DB::table('news')->orderBy('created_at', 'DESC')->get();
         return $result;
     }
 

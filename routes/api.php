@@ -55,7 +55,7 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
 // Comment
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'comment'], function () {
     // Get tag
-    Route::get('getComment', 'CommentController@getComment');
+    Route::get('getComment/{newsId}', 'CommentController@getComment');
     // create tag
     Route::post('createComment', 'CommentController@createComment');
     // edi tag
@@ -68,6 +68,8 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'news'], function () {
     // Get newsInfo
     Route::get('getNewsInfo/{newsId}', 'NewsController@getNewsInfo');
+    // Get news
+    Route::get('getNews', 'NewsController@getNews');
     // create news
     Route::post('createNews', 'NewsController@createNews');
     // edi news

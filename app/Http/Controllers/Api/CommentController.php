@@ -13,9 +13,11 @@ class CommentController extends Controller
     public function __construct(CommentService $commentService) {
         $this->commentService = $commentService;
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param $newsId
      * @return \Illuminate\Http\Response
      */
     public function getComment($newsId)

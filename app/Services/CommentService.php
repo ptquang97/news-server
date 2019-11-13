@@ -8,6 +8,7 @@
 namespace App\Services;
 
 use App\Comment;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 class CommentService extends BaseService {
@@ -32,7 +33,11 @@ class CommentService extends BaseService {
      * @return mixed
      */
     public function getComment($newsId) {
-        $result = Comment::where('news_id', $newsId)->get();
+        $result = Comment::where('news_id', $newsId)->orderBy('created_at', 'DESC')->get();
+        foreach ($result as $comment) {
+           $item = User::where('id', $comment->user_id)->first();
+           $comment->user_name = $item->userName;
+        }
         return $result;
     }
 

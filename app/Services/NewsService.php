@@ -7,7 +7,6 @@
  */
 namespace App\Services;
 
-use App\Comment;
 use App\News;
 use Illuminate\Support\Facades\DB;
 
@@ -38,6 +37,21 @@ class NewsService extends BaseService {
     }
 
     /**
+     * Get News By Category
+     * @param
+     * @return mixed
+     */
+    public function getNewsByCategory($categoryId) {
+        $result = News::where('category_id', $categoryId)->orderBy('id', 'DESC')->get();
+        return $result;
+    }
+
+    public function getNews() {
+        $result = DB::table('news')->orderBy('created_at', 'DESC')->get();
+        return $result;
+    }
+
+    /**
      * Create News
      * @param array $attribute
      * @return mixed
@@ -61,8 +75,23 @@ class NewsService extends BaseService {
      * @return boolean
      */
     public function deleteNews($newsId) {
-        Comment::where('news_id', $newsId)->delete();
+        News::where('news_id', $newsId)->delete();
         return self::delete($newsId);
+    }
+
+    public function upload($attribute = []) {
+        return $attribute;
+//        $user = User::where('email', $attribute['email'])->first();
+//        if ($user) {
+//            if ($user->password === $attribute['password']) {
+//                return $user;
+//            } else {
+//                return 'Invalid Password';
+//            }
+//        } else {
+//            return "Invalid Email";
+//        }
+
     }
 
 }

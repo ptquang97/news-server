@@ -40,20 +40,22 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
 
 // Category
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'category'], function () {
-    // Get tag
+    // Get Category
     Route::get('getCategory', 'CategoryController@getCategory');
-    // create tag
+    // create Category
     Route::post('createCategory', 'CategoryController@createCategory');
-    // edi tag
+    // edi Category
     Route::put('updateCategory', 'CategoryController@updateCategory');
     // delete tag
     Route::put('deleteCategory/{categoryId}', 'CategoryController@deleteCategory');
+    // Get Category Info
+    Route::get('getCategoryInfo/{categoryId}', 'CategoryController@getCategoryInfo');
 });
 
 // Comment
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'comment'], function () {
     // Get tag
-    Route::get('getComment', 'CommentController@getComment');
+    Route::get('getComment/{newsId}', 'CommentController@getComment');
     // create tag
     Route::post('createComment', 'CommentController@createComment');
     // edi tag
@@ -64,12 +66,18 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
 
 // News
 Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 'news'], function () {
-    // Get tag
-    Route::get('getNews', 'CommentController@getNewsInfo');
-    // create tag
-    Route::post('createNews', 'CommentController@createNews');
-    // edi tag
-    Route::put('updateNews', 'CommentController@updateNews');
-    // delete tag
-    Route::put('deleteNews/{newsId}', 'CommentController@deleteNews');
+    // Get newsInfo
+    Route::get('getNewsInfo/{newsId}', 'NewsController@getNewsInfo');
+    // Get news
+    Route::get('getNews', 'NewsController@getNews');
+    // create news
+    Route::post('createNews', 'NewsController@createNews');
+    // edi news
+    Route::put('updateNews', 'NewsController@updateNews');
+    // delete news
+    Route::put('deleteNews/{newsId}', 'NewsController@deleteNews');
+    // add image
+    Route::post('uploadImage', 'NewsController@uploadImage');
+    // Get newsByCategory
+    Route::get('getNewsByCategory/{categoryId}', 'NewsController@getNewsByCategory');
 });

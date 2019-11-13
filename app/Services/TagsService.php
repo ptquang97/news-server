@@ -33,7 +33,7 @@ class TagsService extends BaseService {
      * @return mixed
      */
     public function getTags() {
-        $result = DB::table('tags')->get();
+        $result = DB::table('tags')->orderBy('created_at', 'DESC')->get();
         return $result;
     }
 

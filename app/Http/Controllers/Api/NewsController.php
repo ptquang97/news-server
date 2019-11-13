@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Api;
 use App\Services\NewsService;
+use phpDocumentor\Reflection\File;
+
 class NewsController extends Controller
 {
     protected $newsService;
@@ -20,7 +22,7 @@ class NewsController extends Controller
      * @param $newsId
      * @return \Illuminate\Http\Response
      */
-    public function getInfo($newsId)
+    public function getNewsInfo($newsId)
     {
         $result = $this->newsService->getNewsInfo($newsId);
         if ($result) {
@@ -48,7 +50,6 @@ class NewsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function updateNews(Request $request)
@@ -74,4 +75,42 @@ class NewsController extends Controller
         }
         return Api::r_response("", "Server error", "E500");
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function uploadImage(Request $request)
+    {
+        $path = [];
+        foreach ($request->allFiles() as $photo) {
+            $filename = $photo->storeAs('photos', $photo->getClientOriginalName());
+            array_push($path,$filename);
+        }
+        return Api::r_response($path, "Upload success", "S204");
+
+    }
+
+    /**
+     * @param $categoryId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getNewsByCategory($categoryId)
+    {
+        $result = $this->newsService->getNewsByCategory($categoryId);
+        if ($result) {
+            return Api::r_response($result, "Get News success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
+    public function getNews()
+    {
+        $result = $this->newsService->getNews();
+        if ($result) {
+            return Api::r_response($result, "Get News success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
 }

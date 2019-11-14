@@ -52,9 +52,9 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateNews(Request $request)
+    public function updateNews(Request $request, $newsId)
     {
-        $result = $this->newsService->updateNews($request->all());
+        $result = $this->newsService->updateNews($request->all(), $newsId);
         if ($result) {
             return Api::r_response("", 'Edit News success', 'S204');
         }
@@ -104,9 +104,24 @@ class NewsController extends Controller
         return Api::r_response("", "Server error", 'E500');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getNews()
     {
         $result = $this->newsService->getNews();
+        if ($result) {
+            return Api::r_response($result, "Get News success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getNewsEachCategory()
+    {
+        $result = $this->newsService->getNewsEachCategory();
         if ($result) {
             return Api::r_response($result, "Get News success", 'S200');
         }

@@ -73,11 +73,13 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
     // create news
     Route::post('createNews', 'NewsController@createNews');
     // edi news
-    Route::put('updateNews', 'NewsController@updateNews');
+    Route::put('updateNews/{newsId}', 'NewsController@updateNews');
     // delete news
-    Route::put('deleteNews/{newsId}', 'NewsController@deleteNews');
+    Route::delete('deleteNews/{newsId}', 'NewsController@deleteNews');
     // add image
     Route::post('uploadImage', 'NewsController@uploadImage');
-    // Get newsByCategory
+    // GetNewsByCategory
     Route::get('getNewsByCategory/{categoryId}', 'NewsController@getNewsByCategory');
+    // getNewsEachCategory
+    Route::get('getNewsEachCategory', 'NewsController@getNewsEachCategory');
 });

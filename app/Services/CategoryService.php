@@ -32,7 +32,7 @@ class CategoryService extends BaseService {
      * @return mixed
      */
     public function getCategory() {
-        $result = DB::table('category')->orderBy('created_at', 'DESC')->get();
+        $result = DB::table('category')->orderBy('created_at', 'ASC')->get();
         return $result;
     }
 
@@ -52,7 +52,6 @@ class CategoryService extends BaseService {
 
     /** Update categoryId
      * @param array $attribute
-     * @param $categoryId
      * @return mixed
      */
     public function updateCategory($attribute) {

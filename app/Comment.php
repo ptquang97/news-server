@@ -18,5 +18,5 @@ class Comment extends Model
     /**
      * @var array collumn of table
      */
-    public $fillable = ['id', 'comment', 'user_id', 'news_id'];
+    public $fillable = ['id', 'comment', 'user_name', 'news_id'];
 }

@@ -80,6 +80,10 @@ Route::group(['middleware' => ['api', 'cors'],'namespace' => 'api', 'prefix' => 
     Route::post('uploadImage', 'NewsController@uploadImage');
     // GetNewsByCategory
     Route::get('getNewsByCategory/{categoryId}', 'NewsController@getNewsByCategory');
+    // GetNewsByTag
+    Route::get('getNewsByTag/{tagId}', 'NewsController@getNewsByTag');
     // getNewsEachCategory
     Route::get('getNewsEachCategory', 'NewsController@getNewsEachCategory');
+    // searchNews
+    Route::get('searchNews/{request}', 'NewsController@searchNews');
 });

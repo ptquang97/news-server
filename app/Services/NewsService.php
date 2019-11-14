@@ -9,6 +9,7 @@ namespace App\Services;
 
 use App\News;
 use App\Category;
+use App\Tags;
 use App\User;
 use Illuminate\Support\Facades\DB;
 
@@ -36,10 +37,12 @@ class NewsService extends BaseService {
     public function getNewsInfo($newsId) {
         $result = News::where('id', $newsId)->get();
         foreach ($result as $news) {
+            $tag = Tags::where('id', $news->tags_id)->first();
             $category = Category::where('id', $news->category_id)->first();
             $user = User::where('id', $news->user_id)->first();
             $news->category_name = $category->category_name;
             $news->user_name = $user->userName;
+            $news->tag_name = $tag->tag_name;
         }
         return $result;
     }
@@ -59,10 +62,36 @@ class NewsService extends BaseService {
     }
 
     /**
+     * @param $tagId
+     * @return mixed
+     */
+    public function getNewsByTag($tagId) {
+        $result = News::where('tags_id', $tagId)->orderBy('id', 'DESC')->get();
+        $tag = Tags::where('id', $tagId)->first();
+        foreach ($result as $news) {
+            $news->tag_name = $tag->tag_name;
+        }
+        return $result;
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function getNews() {
         $result = DB::table('news')->orderBy('created_at', 'DESC')->get();
+        foreach ($result as $news) {
+            $category = Category::where('id', $news->category_id)->first();
+            $news->category_name = $category->category_name;
+        }
+        return $result;
+    }
+
+    /**
+     * @param $attribute
+     * @return \Illuminate\Support\Collection
+     */
+    public function searchNews($attribute) {
+        $result = DB::table('news')->where('title', 'like', '%'.$attribute.'%')->orWhere('short_intro', 'like', '%'.$attribute.'%')->orderBy('created_at', 'DESC')->get();
         foreach ($result as $news) {
             $category = Category::where('id', $news->category_id)->first();
             $news->category_name = $category->category_name;

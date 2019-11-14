@@ -105,11 +105,37 @@ class NewsController extends Controller
     }
 
     /**
+     * @param $tagId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getNewsByTag($tagId)
+    {
+        $result = $this->newsService->getNewsByTag($tagId);
+        if ($result) {
+            return Api::r_response($result, "Get News success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function getNews()
     {
         $result = $this->newsService->getNews();
+        if ($result) {
+            return Api::r_response($result, "Get News success", 'S200');
+        }
+        return Api::r_response("", "Server error", 'E500');
+    }
+
+    /**
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchNews($request)
+    {
+        $result = $this->newsService->searchNews($request);
         if ($result) {
             return Api::r_response($result, "Get News success", 'S200');
         }

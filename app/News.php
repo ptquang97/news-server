@@ -15,6 +15,9 @@ class News extends Model
      * @var string table name
      */
     protected $table = 'news';
+    protected $casts = [
+        'tags_id' => 'array'
+    ];
     /**
      * @var array collumn of table
      */

@@ -5,6 +5,7 @@
  * Date: 05-11-2019
  * Time: 00:01
  */
+
 namespace App\Services;
 
 use App\News;
@@ -13,19 +14,22 @@ use App\Tags;
 use App\User;
 use Illuminate\Support\Facades\DB;
 
-class NewsService extends BaseService {
+class NewsService extends BaseService
+{
 
     /**
      * TagsService constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /**
      * @return string
      */
-    public function getModel() {
+    public function getModel()
+    {
         return News::class;
     }
 
@@ -34,15 +38,31 @@ class NewsService extends BaseService {
      * @param
      * @return mixed
      */
-    public function getNewsInfo($newsId) {
-        $result = News::where('id', $newsId)->get();
-        foreach ($result as $news) {
-            $tag = Tags::where('id', $news->tags_id)->first();
-            $category = Category::where('id', $news->category_id)->first();
-            $user = User::where('id', $news->user_id)->first();
-            $news->category_name = $category->category_name;
-            $news->user_name = $user->userName;
-            $news->tag_name = $tag->tag_name;
+    public function getNewsInfo($newsId)
+    {
+//        var_dump($result->tags_id);
+//        exit;
+//        foreach ($result as $news) {
+//            $tag = Tags::where('id', $news->tags_id)->get();
+//            $category = Category::where('id', $news->category_id)->first();
+//            $user = User::where('id', $news->user_id)->first();
+//            $news->category_name = $category->category_name;
+//            $news->user_name = $user->userName;
+//            $news->tag_name = $tag->tag_name;
+//        }
+        $result = DB::table('news')->leftJoin('users', function ($query) {
+            $query->on('news.user_id', '=', 'users.id');
+        })->leftJoin('category', function ($query) {
+            $query->on('news.category_id', '=', 'category.id');
+        })->where('news.id', '=', $newsId)
+            ->select('news.*', 'users.userName', 'category.category_name')
+            ->first();
+        $new = News::where('id', $newsId)->first();
+        $result->tags_id = $new->tags_id;
+        $result->tag_name = [];
+        for ($x = 0; $x < count($new->tags_id); $x++) {
+            $tag = Tags::where('id', $new->tags_id[$x])->first();
+            array_push($result->tag_name, $tag->tag_name);
         }
         return $result;
     }
@@ -52,7 +72,8 @@ class NewsService extends BaseService {
      * @param
      * @return mixed
      */
-    public function getNewsByCategory($categoryId) {
+    public function getNewsByCategory($categoryId)
+    {
         $result = News::where('category_id', $categoryId)->orderBy('id', 'DESC')->get();
         $category = Category::where('id', $categoryId)->first();
         foreach ($result as $news) {
@@ -65,11 +86,24 @@ class NewsService extends BaseService {
      * @param $tagId
      * @return mixed
      */
-    public function getNewsByTag($tagId) {
-        $result = News::where('tags_id', $tagId)->orderBy('id', 'DESC')->get();
+    public function getNewsByTag($tagId)
+    {
+//        $tag = implode(',', $tagId);
+//        $result = News::where('tags_id', 'in', $tag)->orderBy('id', 'DESC')->first();
+//        var_dump($result);
+//        exit;
+//        $tag = Tags::where('id', $tagId)->first();
+//        foreach ($result as $news) {
+//            $news->tag_name = $tag->tag_name;
+//        }
+        $result = [];
         $tag = Tags::where('id', $tagId)->first();
-        foreach ($result as $news) {
-            $news->tag_name = $tag->tag_name;
+        $news = News::get();
+        foreach ($news as $new) {
+            if (in_array($tagId, $new->tags_id)) {
+                $new->tag_name = $tag->tag_name;
+                array_push($result, $new);
+            }
         }
         return $result;
     }
@@ -77,7 +111,8 @@ class NewsService extends BaseService {
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getNews() {
+    public function getNews()
+    {
         $result = DB::table('news')->orderBy('created_at', 'DESC')->get();
         foreach ($result as $news) {
             $category = Category::where('id', $news->category_id)->first();
@@ -90,8 +125,9 @@ class NewsService extends BaseService {
      * @param $attribute
      * @return \Illuminate\Support\Collection
      */
-    public function searchNews($attribute) {
-        $result = DB::table('news')->where('title', 'like', '%'.$attribute.'%')->orWhere('short_intro', 'like', '%'.$attribute.'%')->orderBy('created_at', 'DESC')->get();
+    public function searchNews($attribute)
+    {
+        $result = DB::table('news')->where('title', 'like', '%' . $attribute . '%')->orWhere('short_intro', 'like', '%' . $attribute . '%')->orderBy('created_at', 'DESC')->get();
         foreach ($result as $news) {
             $category = Category::where('id', $news->category_id)->first();
             $news->category_name = $category->category_name;
@@ -103,12 +139,13 @@ class NewsService extends BaseService {
      * @return array
      * get 3 news each category
      */
-    public function getNewsEachCategory() {
-        $listCategory = DB::table('category')->orderBy('created_at', 'ASC')->get();
+    public function getNewsEachCategory()
+    {
+        $listCategory = DB::table('category')->orderBy('created_at', 'ASC')->limit(8)->get();
         $listNews = [];
         foreach ($listCategory as $category) {
             $result = News::where('category_id', $category->id)->orderBy('created_at', 'DESC')->get();
-            for ($i = 0; $i < 3; $i++ ) {
+            for ($i = 0; $i < 3; $i++) {
                 array_push($listNews, $result[$i]);
             }
         }
@@ -120,7 +157,8 @@ class NewsService extends BaseService {
      * @param array $attribute
      * @return mixed
      */
-    public function createNews($attribute = []) {
+    public function createNews($attribute = [])
+    {
         return $this->create($attribute);
     }
 
@@ -129,7 +167,8 @@ class NewsService extends BaseService {
      * @param $newsId
      * @return mixed
      */
-    public function updateNews($attribute = [], $newsId) {
+    public function updateNews($attribute = [], $newsId)
+    {
         $News = News::where('id', $newsId)->update($attribute);
         return $News;
     }
@@ -138,7 +177,8 @@ class NewsService extends BaseService {
      * @param $newsId
      * @return boolean
      */
-    public function deleteNews($newsId) {
+    public function deleteNews($newsId)
+    {
         News::where('id', $newsId)->delete();
         return self::delete($newsId);
     }
@@ -147,7 +187,8 @@ class NewsService extends BaseService {
      * @param array $attribute
      * @return array
      */
-    public function upload($attribute = []) {
+    public function upload($attribute = [])
+    {
         return $attribute;
 //        $user = User::where('email', $attribute['email'])->first();
 //        if ($user) {
